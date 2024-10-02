@@ -15,7 +15,7 @@ from baseclasses.chemical_energy.cyclicvoltammetry import CVProperties
 from baseclasses.chemical_energy.linear_sweep_voltammetry import LSVProperties
 from baseclasses.chemical_energy.galvanodynamic_sweep import LSGProperties
 from baseclasses.chemical_energy.opencircuitvoltage import OCVProperties
-from baseclasses.chemical_energy.electorchemical_impedance_spectroscopy import EISProperties, EISCycle
+from baseclasses.chemical_energy.electrochemical_impedance_spectroscopy import EISProperties, EISCycle
 from baseclasses.chemical_energy.voltammetry import VoltammetryCycle, VoltammetryCycleWithPlot
 from baseclasses.atmosphere import Atmosphere
 
