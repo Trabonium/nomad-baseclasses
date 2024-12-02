@@ -17,64 +17,47 @@
 #
 
 import numpy as np
-
-from nomad.metainfo import (Quantity, SubSection, Datetime, Section)
-from .. import BaseMeasurement
-
 from nomad.datamodel.data import ArchiveSection
+from nomad.metainfo import Datetime, Quantity, Section, SubSection
+
+from .. import BaseMeasurement
 
 
 class TemperatureSensors(ArchiveSection):
     m_def = Section(label_quantity='name')
 
-    name = Quantity(
-        type=str)
+    name = Quantity(type=str)
 
-    temperature = Quantity(
-        type=np.dtype(np.float64),
-        unit=('°C'),
-        shape=['*'])
+    temperature = Quantity(type=np.dtype(np.float64), unit=('°C'), shape=['*'])
 
 
 class EnvironmentData(ArchiveSection):
-    time = Quantity(
-        type=np.dtype(np.float64),
-        unit=('s'),
-        shape=['*'])
+    time = Quantity(type=np.dtype(np.float64), unit=('s'), shape=['*'])
 
-    datetime = Quantity(
-        type=Datetime,
-        shape=['*'])
+    datetime = Quantity(type=Datetime, shape=['*'])
 
-    temperature = Quantity(
-        type=np.dtype(np.float64),
-        unit=('°C'),
-        shape=['*'])
+    temperature = Quantity(type=np.dtype(np.float64), unit=('°C'), shape=['*'])
 
-    humidity = Quantity(
-        type=np.dtype(np.float64),
-        shape=['*'])
+    humidity = Quantity(type=np.dtype(np.float64), shape=['*'])
 
-    pressure = Quantity(
-        type=np.dtype(np.float64),
-        unit=('mbar'),
-        shape=['*'])
+    pressure = Quantity(type=np.dtype(np.float64), unit=('mbar'), shape=['*'])
 
     temperature_sensors = SubSection(section_def=TemperatureSensors, repeats=True)
 
 
 class EnvironmentMeasurement(BaseMeasurement):
-    '''Base class for environment measurement'''
+    """Base class for environment measurement"""
 
     data_file = Quantity(
         type=str,
         a_eln=dict(component='FileEditQuantity'),
-        a_browser=dict(adaptor='RawFileAdaptor'))
+        a_browser=dict(adaptor='RawFileAdaptor'),
+    )
 
     data = SubSection(section_def=EnvironmentData)
 
     # properties = SubSection(section_def=XRDProperties)
 
     def normalize(self, archive, logger):
-        super(EnvironmentMeasurement, self).normalize(archive, logger)
-        self.method = "Environment measurement"
+        super().normalize(archive, logger)
+        self.method = 'Environment measurement'

@@ -16,25 +16,19 @@
 # limitations under the License.
 #
 
-import numpy as np
 
-from nomad.metainfo import (
-    Quantity,
-    Section,
-    SubSection,
-    Reference)
-from nomad.datamodel.data import ArchiveSection
-
+from nomad.metainfo import Section
 
 from .wet_chemical_deposition import WetChemicalDeposition
 
 
 class BladeCoating(WetChemicalDeposition):
-    '''Base class for blade coating of a sample'''
+    """Base class for blade coating of a sample"""
+
     m_def = Section(
         # links = ['http://purl.obolibrary.org/obo/CHMO_0001471'],
     )
 
     def normalize(self, archive, logger):
-        super(BladeCoating, self).normalize(archive, logger)
-        self.method = "Blade Coating"
+        self.method = 'Blade Coating'
+        super().normalize(archive, logger)

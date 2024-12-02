@@ -16,29 +16,30 @@
 # limitations under the License.
 #
 
+from nomad.metainfo import Quantity, Section
+
 from .. import BaseMeasurement, LibraryMeasurement
-from nomad.metainfo import (Quantity, Section)
 
 
 class XPS(BaseMeasurement):
-    '''XPS Measurement'''
+    """XPS Measurement"""
 
     data_file = Quantity(
         type=str,
         a_eln=dict(component='FileEditQuantity'),
-        a_browser=dict(adaptor='RawFileAdaptor'))
+        a_browser=dict(adaptor='RawFileAdaptor'),
+    )
 
     def normalize(self, archive, logger):
-        super(XPS, self).normalize(archive, logger)
-        self.method = "X-ray photoelectron spectroscopy"
+        super().normalize(archive, logger)
+        self.method = 'X-ray photoelectron spectroscopy'
 
 
 class XPSLibrary(LibraryMeasurement):
-    '''XPS Measurement'''
+    """XPS Measurement"""
 
-    m_def = Section(
-        a_eln=dict(hide=['certified_values', 'certification_institute']))
+    m_def = Section(a_eln=dict(hide=['certified_values', 'certification_institute']))
 
     def normalize(self, archive, logger):
-        super(XPSLibrary, self).normalize(archive, logger)
-        self.method = "XPS"
+        super().normalize(archive, logger)
+        self.method = 'XPS'

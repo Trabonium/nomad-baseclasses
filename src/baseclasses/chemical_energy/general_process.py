@@ -18,7 +18,6 @@
 
 from nomad.metainfo import (
     Quantity,
-    Reference,
     Section,
 )
 
@@ -26,14 +25,14 @@ from .. import BaseMeasurement
 from ..helper.utilities import set_sample_reference
 
 
-class GeneralMeasurement(BaseMeasurement):
-
+class GeneralProcess(BaseMeasurement):
     m_def = Section()
 
     data_file = Quantity(
         type=str,
         a_eln=dict(component='FileEditQuantity'),
-        a_browser=dict(adaptor='RawFileAdaptor'))
+        a_browser=dict(adaptor='RawFileAdaptor'),
+    )
 
     search_sample_in_same_upload = Quantity(
         type=bool,
@@ -46,13 +45,11 @@ class GeneralMeasurement(BaseMeasurement):
         a_eln=dict(component='BoolEditQuantity'),
     )
 
-
     def normalize(self, archive, logger):
         if not self.samples:
-            sample_id = self.data_file.split(".")[0].split("-")[0]
+            sample_id = self.data_file.split('.')[0].split('-')[0]
             upload_id = None
             if self.search_sample_in_same_upload:
                 upload_id = archive.metadata.upload_id
             set_sample_reference(archive, self, sample_id, upload_id)
-        super(GeneralMeasurement, self).normalize(archive, logger)
-
+        super().normalize(archive, logger)

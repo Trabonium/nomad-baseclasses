@@ -16,16 +16,18 @@
 # limitations under the License.
 #
 
-from nomad.metainfo import Reference, Quantity
+from nomad.metainfo import Quantity, Reference
+
 from .. import Batch
-from ..characterizations.electron_microscopy.microscope import OpticalMicroscopeTechnique
+from ..characterizations.electron_microscopy.microscope import (
+    OpticalMicroscopeTechnique,
+)
 
 
 class OpticalMicroscope(OpticalMicroscopeTechnique):
-
     batch = Quantity(
-        type=Reference(Batch.m_def),
-        a_eln=dict(component='ReferenceEditQuantity'))
+        type=Reference(Batch.m_def), a_eln=dict(component='ReferenceEditQuantity')
+    )
 
     def normalize(self, archive, logger):
-        super(OpticalMicroscope, self).normalize(archive, logger)
+        super().normalize(archive, logger)

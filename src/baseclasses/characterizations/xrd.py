@@ -17,104 +17,127 @@
 #
 
 import numpy as np
-
-from nomad.metainfo import (
-    Quantity,
-    Section,
-    SubSection)
 from nomad.datamodel.data import ArchiveSection
+from nomad.metainfo import Quantity, Section, SubSection
 
 from .. import BaseMeasurement, LibraryMeasurement
 
 
 class XRDData(ArchiveSection):
     m_def = Section(
-        label_quantity='name', a_plot=[
+        label_quantity='name',
+        a_plot=[
             {
-                'x': 'angle', 'y': 'intensity', 'layout': {
-                    'yaxis': {
-                        "fixedrange": False}, 'xaxis': {
-                        "fixedrange": False}}, "config": {
-                            "scrollZoom": True, 'staticPlot': False, }}])
+                'x': 'angle',
+                'y': 'intensity',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {
+                    'scrollZoom': True,
+                    'staticPlot': False,
+                },
+            }
+        ],
+    )
 
-    name = Quantity(
-        type=str)
+    name = Quantity(type=str)
 
-    metadata = Quantity(
-        type=str, a_browser=dict(adaptor='RawFileAdaptor'))
+    metadata = Quantity(type=str, a_browser=dict(adaptor='RawFileAdaptor'))
 
-    angle_type = Quantity(
-        type=str)
+    angle_type = Quantity(type=str)
 
     angle = Quantity(
-        type=np.dtype(
-            np.float64), shape=['*'], unit='degree', a_plot=[
+        type=np.dtype(np.float64),
+        shape=['*'],
+        unit='degree',
+        a_plot=[
             {
-                'x': 'angle', 'y': 'intensity', 'layout': {
-                    'yaxis': {
-                        "fixedrange": False}, 'xaxis': {
-                            "fixedrange": False}}, "config": {
-                    "editable": True, "scrollZoom": True}}])
+                'x': 'angle',
+                'y': 'intensity',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {'editable': True, 'scrollZoom': True},
+            }
+        ],
+    )
 
     intensity = Quantity(
-        type=np.dtype(
-            np.float64), shape=['*'], a_plot=[
+        type=np.dtype(np.float64),
+        shape=['*'],
+        a_plot=[
             {
-                'x': 'angle', 'y': 'intensity', 'layout': {
-                    'yaxis': {
-                        "fixedrange": False}, 'xaxis': {
-                            "fixedrange": False}}, "config": {
-                    "editable": True, "scrollZoom": True}}])
+                'x': 'angle',
+                'y': 'intensity',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {'editable': True, 'scrollZoom': True},
+            }
+        ],
+    )
 
 
 class XRDShiftedData(XRDData):
     m_def = Section(
-        label_quantity='model', a_plot=[
+        label_quantity='model',
+        a_plot=[
             {
-                'x': 'angle', 'y': 'intensity', 'layout': {
-                    'yaxis': {
-                        "fixedrange": False}, 'xaxis': {
-                        "fixedrange": False}}, "config": {
-                            "scrollZoom": True, 'staticPlot': False, }}])
+                'x': 'angle',
+                'y': 'intensity',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {
+                    'scrollZoom': True,
+                    'staticPlot': False,
+                },
+            }
+        ],
+    )
 
-    model = Quantity(
-        type=str, a_eln=dict(component='StringEditQuantity'))
+    model = Quantity(type=str, a_eln=dict(component='StringEditQuantity'))
 
     goniometer_radius = Quantity(
         type=np.dtype(np.float64),
         unit=('mm'),
-        a_eln=dict(component='NumberEditQuantity', defaultDisplayUnit='mm'))
+        a_eln=dict(component='NumberEditQuantity', defaultDisplayUnit='mm'),
+    )
 
     displacement = Quantity(
         type=np.dtype(np.float64),
         unit=('mm'),
-        a_eln=dict(component='NumberEditQuantity', defaultDisplayUnit='mm'))
+        a_eln=dict(component='NumberEditQuantity', defaultDisplayUnit='mm'),
+    )
 
 
 class XRDProperties(ArchiveSection):
-
     sample_temperature = Quantity(
         type=np.dtype(np.float64),
         unit=('°C'),
-        a_eln=dict(component='NumberEditQuantity', defaultDisplayUnit='°C'))
+        a_eln=dict(component='NumberEditQuantity', defaultDisplayUnit='°C'),
+    )
 
 
 class XRD(BaseMeasurement):
-    '''UV vis Measurement'''
+    """UV vis Measurement"""
 
-    m_def = Section(
-        a_eln=dict(hide=['certified_values', 'certification_institute']))
+    m_def = Section(a_eln=dict(hide=['certified_values', 'certification_institute']))
 
     data_file = Quantity(
         type=str,
         a_eln=dict(component='FileEditQuantity'),
-        a_browser=dict(adaptor='RawFileAdaptor'))
+        a_browser=dict(adaptor='RawFileAdaptor'),
+    )
 
-    data = SubSection(
-        section_def=XRDData)
+    data = SubSection(section_def=XRDData)
 
-    properties = SubSection(
-        section_def=XRDProperties)
+    properties = SubSection(section_def=XRDProperties)
     # shifted_data = SubSection(
     #     section_def=XRDShiftedData, repeats=True)
 
@@ -122,16 +145,15 @@ class XRD(BaseMeasurement):
     #     type=str)
 
     def normalize(self, archive, logger):
-        super(XRD, self).normalize(archive, logger)
-        self.method = "XRD"
+        super().normalize(archive, logger)
+        self.method = 'XRD'
 
 
 class XRDLibrary(LibraryMeasurement):
-    '''XRD Measurement'''
+    """XRD Measurement"""
 
-    m_def = Section(
-        a_eln=dict(hide=['certified_values', 'certification_institute']))
+    m_def = Section(a_eln=dict(hide=['certified_values', 'certification_institute']))
 
     def normalize(self, archive, logger):
-        super(XRDLibrary, self).normalize(archive, logger)
-        self.method = "XRD"
+        super().normalize(archive, logger)
+        self.method = 'XRD'

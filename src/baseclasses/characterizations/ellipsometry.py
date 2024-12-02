@@ -16,35 +16,32 @@
 # limitations under the License.
 #
 
-from nomad.metainfo import (
-    Quantity,
-    Section,
-    SubSection)
-# from nomad.datamodel.data import ArchiveSection
+from nomad.metainfo import Quantity, Section
 
+# from nomad.datamodel.data import ArchiveSection
 from .. import BaseMeasurement, LibraryMeasurement
 
 
 class Ellipsometry(BaseMeasurement):
-    '''Ellipsometry'''
+    """Ellipsometry"""
 
     data_file = Quantity(
         type=str,
         shape=['*'],
         a_eln=dict(component='FileEditQuantity'),
-        a_browser=dict(adaptor='RawFileAdaptor'))
+        a_browser=dict(adaptor='RawFileAdaptor'),
+    )
 
     def normalize(self, archive, logger):
-        self.method = "Ellipsometry"
-        super(Ellipsometry, self).normalize(archive, logger)
+        self.method = 'Ellipsometry'
+        super().normalize(archive, logger)
 
 
 class EllipsometryLibrary(LibraryMeasurement):
-    '''Ellipsometry Measurement'''
+    """Ellipsometry Measurement"""
 
-    m_def = Section(
-        a_eln=dict(hide=['certified_values', 'certification_institute']))
+    m_def = Section(a_eln=dict(hide=['certified_values', 'certification_institute']))
 
     def normalize(self, archive, logger):
-        super(EllipsometryLibrary, self).normalize(archive, logger)
-        self.method = "Ellipsometry"
+        super().normalize(archive, logger)
+        self.method = 'Ellipsometry'

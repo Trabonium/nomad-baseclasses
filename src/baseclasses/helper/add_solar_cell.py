@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright The NOMAD Authors.
 #
@@ -17,18 +16,23 @@
 # limitations under the License.
 #
 
-from nomad.datamodel.metainfo.common import ProvenanceTracker
-from nomad.datamodel.results import (BandGapDeprecated, BandGap, BandStructureElectronic,
-                                     ElectronicProperties, OptoelectronicProperties,
-                                     Properties, Results, SolarCell)
 import numpy as np
-
+from nomad.datamodel.metainfo.common import ProvenanceTracker
+from nomad.datamodel.results import (
+    BandGap,
+    BandGapDeprecated,
+    BandStructureElectronic,
+    ElectronicProperties,
+    OptoelectronicProperties,
+    Properties,
+    Results,
+    SolarCell,
+)
 from nomad.units import ureg
-from nomad.datamodel.results import OptoelectronicProperties, Properties, Results, SolarCell, BandGap, BandStructureElectronic, ElectronicProperties
 
 
 def add_solar_cell(archive):
-    '''Adds metainfo structure for solar cell data.'''
+    """Adds metainfo structure for solar cell data."""
     if not archive.results:
         archive.results = Results()
     if not archive.results.properties:
@@ -43,20 +47,25 @@ def add_solar_cell(archive):
 
 
 def add_band_gap(archive, band_gap):
-    '''Adds a band gap value (in eV) with the additional section structure for solar
+    """Adds a band gap value (in eV) with the additional section structure for solar
     cell data.eV=
-    '''
+    """
     if band_gap is not None:
         if not archive.results:
             archive.results = Results()
         if not archive.results.properties:
             archive.results.properties = Properties()
         bg = BandGapDeprecated(value=np.float64(band_gap) * ureg('eV'))
-        band_gap = BandGap(value=np.float64(band_gap) * ureg('eV'),
-                           provenance=ProvenanceTracker(label='solar_cell_database'))  # TODO: check label
-        band_structure = BandStructureElectronic(band_gap=[bg])  # TODO: to be removed after reparsing
-        electronic = ElectronicProperties(band_structure_electronic=[band_structure],
-                                          band_gap=[band_gap])
+        band_gap = BandGap(
+            value=np.float64(band_gap) * ureg('eV'),
+            provenance=ProvenanceTracker(label='solar_cell_database'),
+        )  # TODO: check label
+        band_structure = BandStructureElectronic(
+            band_gap=[bg]
+        )  # TODO: to be removed after reparsing
+        electronic = ElectronicProperties(
+            band_structure_electronic=[band_structure], band_gap=[band_gap]
+        )
         archive.results.properties.electronic = electronic
 
 

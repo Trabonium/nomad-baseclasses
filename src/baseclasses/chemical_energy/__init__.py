@@ -48,7 +48,7 @@ from .electrochemical_impedance_spectroscopy import (
 )
 from .electrolyser_performance import ElectrolyserPerformanceEvaluation
 from .galvanodynamic_sweep import GalvanodynamicSweep, LSGProperties
-from .general_measurement import GeneralMeasurement
+from .general_process import GeneralProcess
 from .linear_sweep_voltammetry import LinearSweepVoltammetry, LSVProperties
 from .massspectrometry import (
     Massspectrometry,
@@ -66,9 +66,9 @@ from .potentiometry_gaschromatography import (
     GasFEResults,
     NECCExperimentalProperties,
     NECCFeedGas,
+    NECCPotentiostatMeasurement,
     PotentiometryGasChromatographyMeasurement,
     PotentiometryGasChromatographyResults,
-    PotentiostatMeasurement,
     ThermocoupleMeasurement,
 )
 from .potentiostat_measurement import PotentiostatMeasurement, PotentiostatSetup

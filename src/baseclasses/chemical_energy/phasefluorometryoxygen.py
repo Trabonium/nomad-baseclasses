@@ -18,89 +18,128 @@
 
 
 import numpy as np
+from nomad.metainfo import Quantity, Reference
 
-from nomad.metainfo import (Quantity, Reference)
 from .. import BaseMeasurement
+from .cesample import ElectroChemicalSetup, Environment
 from .potentiostat_measurement import PotentiostatMeasurement
-from .cesample import Environment, ElectroChemicalSetup
 
 
 class PhaseFluorometryOxygen(BaseMeasurement):
-
     data_file = Quantity(
         type=str,
         a_eln=dict(component='FileEditQuantity'),
-        a_browser=dict(adaptor='RawFileAdaptor'))
+        a_browser=dict(adaptor='RawFileAdaptor'),
+    )
 
     electro_chemistry_measurement = Quantity(
         type=Reference(PotentiostatMeasurement.m_def),
-        a_eln=dict(component='ReferenceEditQuantity'))
+        a_eln=dict(component='ReferenceEditQuantity'),
+    )
 
     environment = Quantity(
         links=['https://w3id.org/nfdi4cat/voc4cat_0007223'],
         type=Reference(Environment.m_def),
-        a_eln=dict(component='ReferenceEditQuantity'))
+        a_eln=dict(component='ReferenceEditQuantity'),
+    )
 
     setup = Quantity(
         links=['https://w3id.org/nfdi4cat/voc4cat_0007230'],
         type=Reference(ElectroChemicalSetup.m_def),
-        a_eln=dict(component='ReferenceEditQuantity'))
+        a_eln=dict(component='ReferenceEditQuantity'),
+    )
 
-    time = Quantity(
-        type=np.dtype(np.float64),
-        shape=['*'],
-        unit='minute')
+    time = Quantity(type=np.dtype(np.float64), shape=['*'], unit='minute')
 
     oxygen = Quantity(
-        type=np.dtype(
-            np.float64), shape=['n_values'], unit='umol/L', a_plot=[
+        type=np.dtype(np.float64),
+        shape=['n_values'],
+        unit='umol/L',
+        a_plot=[
             {
-                "label": "Current", 'x': 'time', 'y': 'oxygen', 'layout': {
-                    'yaxis': {
-                        "fixedrange": False}, 'xaxis': {
-                            "fixedrange": False}}, "config": {
-                    "editable": True, "scrollZoom": True}}])
+                'label': 'Current',
+                'x': 'time',
+                'y': 'oxygen',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {'editable': True, 'scrollZoom': True},
+            }
+        ],
+    )
 
     temperature = Quantity(
-        type=np.dtype(
-            np.float64), shape=['n_values'], unit='°C', a_plot=[
+        type=np.dtype(np.float64),
+        shape=['n_values'],
+        unit='°C',
+        a_plot=[
             {
-                "label": "Current", 'x': 'time', 'y': 'temperature', 'layout': {
-                    'yaxis': {
-                        "fixedrange": False}, 'xaxis': {
-                            "fixedrange": False}}, "config": {
-                    "editable": True, "scrollZoom": True}}])
+                'label': 'Current',
+                'x': 'time',
+                'y': 'temperature',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {'editable': True, 'scrollZoom': True},
+            }
+        ],
+    )
 
     phase = Quantity(
-        type=np.dtype(
-            np.float64), shape=['n_values'], unit='degree', a_plot=[
+        type=np.dtype(np.float64),
+        shape=['n_values'],
+        unit='degree',
+        a_plot=[
             {
-                "label": "Current", 'x': 'time', 'y': 'phase', 'layout': {
-                    'yaxis': {
-                         "fixedrange": False}, 'xaxis': {
-                        "fixedrange": False}}, "config": {
-                    "editable": True, "scrollZoom": True}}])
+                'label': 'Current',
+                'x': 'time',
+                'y': 'phase',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {'editable': True, 'scrollZoom': True},
+            }
+        ],
+    )
 
     pressure = Quantity(
-        type=np.dtype(
-            np.float64), shape=['n_values'], unit='hPa', a_plot=[
+        type=np.dtype(np.float64),
+        shape=['n_values'],
+        unit='hPa',
+        a_plot=[
             {
-                "label": "Current", 'x': 'time', 'y': 'pressure', 'layout': {
-                    'yaxis': {
-                         "fixedrange": False}, 'xaxis': {
-                        "fixedrange": False}}, "config": {
-                    "editable": True, "scrollZoom": True}}])
+                'label': 'Current',
+                'x': 'time',
+                'y': 'pressure',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {'editable': True, 'scrollZoom': True},
+            }
+        ],
+    )
 
     amplitude = Quantity(
-        type=np.dtype(
-            np.float64), shape=['n_values'], a_plot=[
+        type=np.dtype(np.float64),
+        shape=['n_values'],
+        a_plot=[
             {
-                "label": "Current", 'x': 'time', 'y': 'amplitude', 'layout': {
-                    'yaxis': {
-                         "fixedrange": False}, 'xaxis': {
-                        "fixedrange": False}}, "config": {
-                    "editable": True, "scrollZoom": True}}])
+                'label': 'Current',
+                'x': 'time',
+                'y': 'amplitude',
+                'layout': {
+                    'yaxis': {'fixedrange': False},
+                    'xaxis': {'fixedrange': False},
+                },
+                'config': {'editable': True, 'scrollZoom': True},
+            }
+        ],
+    )
 
     def normalize(self, archive, logger):
-        self.method = "Phase Fluorometry"
-        super(PhaseFluorometryOxygen, self).normalize(archive, logger)
+        self.method = 'Phase Fluorometry'
+        super().normalize(archive, logger)

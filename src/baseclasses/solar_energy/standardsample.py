@@ -16,21 +16,17 @@
 # limitations under the License.
 #
 
-from nomad.metainfo import (
-    Quantity,
-    Reference
-)
-
-
-from .substrate import Substrate
-from .. import StandardSample
 from nomad.datamodel.data import ArchiveSection
+from nomad.metainfo import Quantity, Reference
+
+from .. import StandardSample
+from .substrate import Substrate
 
 
 class SolarCellProperties(ArchiveSection):
     substrate = Quantity(
-        type=Reference(Substrate.m_def),
-        a_eln=dict(component='ReferenceEditQuantity'))
+        type=Reference(Substrate.m_def), a_eln=dict(component='ReferenceEditQuantity')
+    )
 
     architecture = Quantity(
         type=str,
@@ -38,12 +34,21 @@ class SolarCellProperties(ArchiveSection):
         description="""
             The cell architecture with respect to the direction of current flow and
             the order in which layers are deposited.
-            The two most common are nip (also referred to as normal) and pin (also referred to as inverted)
+            The two most common are nip (also referred to as normal) and pin 
+            (also referred to as inverted)
             but there are also a few others, e.g. Back contacted.
-            - *nip* architecture means that the electrons are collected at the substrate side.
-            The typical example is in perovskite solar cells when a TiO2 electron selective contact is deposited
-            between the perovskite and the substrate (e.g. SLG | FTO | TiO2-c | Perovskite | …)
-            - *pin* architecture means that it instead is the holes that are collected at the substrate side. The typical example is when a PEDOT:PSS hole selective contact is deposited between the perovskite and the substrate (e.g. SLG | FTO | PEDOT:PSS |Perovskite | …)
+            - *nip* architecture means that the electrons are collected at the 
+            substrate 
+            side.
+            The typical example is in perovskite solar cells when a TiO2 electron 
+            selective contact is deposited
+            between the perovskite and the substrate 
+            (e.g. SLG | FTO | TiO2-c | Perovskite | …)
+            - *pin* architecture means that it instead is the holes that are collected 
+            at the substrate side. The typical example is when a PEDOT:PSS hole 
+            selective contact 
+            is deposited between the perovskite and the substrate 
+            (e.g. SLG | FTO | PEDOT:PSS |Perovskite | …)
         """,
         a_eln=dict(
             component='EnumEditQuantity',
@@ -55,14 +60,17 @@ class SolarCellProperties(ArchiveSection):
                     'Back contacted',
                     'pin',
                     'nip',
-                    'Schottky'])))
+                    'Schottky',
+                ]
+            ),
+        ),
+    )
 
 
 class StandardSampleSolarCell(StandardSample):
-
     substrate = Quantity(
-        type=Reference(Substrate.m_def),
-        a_eln=dict(component='ReferenceEditQuantity'))
+        type=Reference(Substrate.m_def), a_eln=dict(component='ReferenceEditQuantity')
+    )
 
     architecture = Quantity(
         type=str,
@@ -70,12 +78,19 @@ class StandardSampleSolarCell(StandardSample):
         description="""
             The cell architecture with respect to the direction of current flow and
             the order in which layers are deposited.
-            The two most common are nip (also referred to as normal) and pin (also referred to as inverted)
+            The two most common are nip (also referred to as normal) and pin 
+            (also referred to as inverted)
             but there are also a few others, e.g. Back contacted.
-            - *nip* architecture means that the electrons are collected at the substrate side.
-            The typical example is in perovskite solar cells when a TiO2 electron selective contact is deposited
-            between the perovskite and the substrate (e.g. SLG | FTO | TiO2-c | Perovskite | …)
-            - *pin* architecture means that it instead is the holes that are collected at the substrate side. The typical example is when a PEDOT:PSS hole selective contact is deposited between the perovskite and the substrate (e.g. SLG | FTO | PEDOT:PSS |Perovskite | …)
+            - *nip* architecture means that the electrons are collected at the 
+            substrate side.
+            The typical example is in perovskite solar cells when a TiO2 electron 
+            selective contact is deposited
+            between the perovskite and the substrate 
+            (e.g. SLG | FTO | TiO2-c | Perovskite | …)
+            - *pin* architecture means that it instead is the holes that are collected 
+            at the substrate side. The typical example is when a PEDOT:PSS hole 
+            selective contact is deposited between the perovskite and 
+            the substrate (e.g. SLG | FTO | PEDOT:PSS |Perovskite | …)
         """,
         a_eln=dict(
             component='EnumEditQuantity',
@@ -87,7 +102,11 @@ class StandardSampleSolarCell(StandardSample):
                     'Back contacted',
                     'pin',
                     'nip',
-                    'Schottky'])))
+                    'Schottky',
+                ]
+            ),
+        ),
+    )
 
     def normalize(self, archive, logger):
-        super(StandardSampleSolarCell, self).normalize(archive, logger)
+        super().normalize(archive, logger)

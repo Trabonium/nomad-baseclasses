@@ -16,18 +16,20 @@
 # limitations under the License.
 #
 
+from nomad.metainfo import Quantity
+
 from .. import BaseMeasurement
-from nomad.metainfo import (Quantity)
 
 
 class TGA(BaseMeasurement):
-    '''Thermogravimetric analysis'''
+    """Thermogravimetric analysis"""
 
     data_file = Quantity(
         type=str,
         a_eln=dict(component='FileEditQuantity'),
-        a_browser=dict(adaptor='RawFileAdaptor'))
+        a_browser=dict(adaptor='RawFileAdaptor'),
+    )
 
     def normalize(self, archive, logger):
-        super(TGA, self).normalize(archive, logger)
-        self.method = "Thermogravimetric analysis"
+        super().normalize(archive, logger)
+        self.method = 'Thermogravimetric analysis'

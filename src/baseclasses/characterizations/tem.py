@@ -16,17 +16,16 @@
 # limitations under the License.
 #
 
-from nomad.metainfo import (Quantity)
+from nomad.metainfo import Quantity
 
 from .. import BaseMeasurement
 
 
 class TEM(BaseMeasurement):
-
     link_to_external_measurement = Quantity(
-        type=str,
-        a_eln=dict(component='URLEditQuantity'))
+        type=str, a_eln=dict(component='URLEditQuantity')
+    )
 
     def normalize(self, archive, logger):
-        super(TEM, self).normalize(archive, logger)
-        self.method = "Transmission Electron Microscopy"
+        super().normalize(archive, logger)
+        self.method = 'Transmission Electron Microscopy'

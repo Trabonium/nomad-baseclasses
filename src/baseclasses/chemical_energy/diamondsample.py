@@ -17,9 +17,8 @@
 #
 
 import numpy as np
-
-from nomad.metainfo import (Quantity, SubSection)
 from nomad.datamodel.data import ArchiveSection
+from nomad.metainfo import Quantity, SubSection
 
 from .cesample import CENSLISample
 
@@ -31,53 +30,50 @@ class DiamondProperties(ArchiveSection):
             component='EnumEditQuantity',
             props=dict(
                 suggestions=[
-                    "Single Crytal",
-                    "Polycrystal",
-                    "Nanostructured",
-                    "Nanodiamonds"])))
+                    'Single Crytal',
+                    'Polycrystal',
+                    'Nanostructured',
+                    'Nanodiamonds',
+                ]
+            ),
+        ),
+    )
 
     diamond_type_comment = Quantity(
-        type=str,
-        a_eln=dict(
-            component='StringEditQuantity'
-        ))
+        type=str, a_eln=dict(component='StringEditQuantity')
+    )
 
     surface_orientation = Quantity(
         type=str,
         a_eln=dict(
-            component='EnumEditQuantity',
-            props=dict(suggestions=["<100>", "<111>"])
-        ))
+            component='EnumEditQuantity', props=dict(suggestions=['<100>', '<111>'])
+        ),
+    )
 
     doping = Quantity(
         links=['https://w3id.org/nfdi4cat/voc4cat_0000015'],
         type=str,
         a_eln=dict(
             component='EnumEditQuantity',
-            props=dict(suggestions=["None", "B", "N", "P", "unknown"])
-        ))
+            props=dict(suggestions=['None', 'B', 'N', 'P', 'unknown']),
+        ),
+    )
 
     doping_level = Quantity(
-        type=np.dtype(
-            np.float64),
-        a_eln=dict(
-            component='NumberEditQuantity'))
+        type=np.dtype(np.float64), a_eln=dict(component='NumberEditQuantity')
+    )
 
     surface_termination = Quantity(
         type=str,
         a_eln=dict(
             component='EnumEditQuantity',
-            props=dict(suggestions=["H", "O", "N", "F", "mixed", "unknown"])
-        ))
+            props=dict(suggestions=['H', 'O', 'N', 'F', 'mixed', 'unknown']),
+        ),
+    )
 
 
 class DiamondSample(CENSLISample):
-    diamond_properties = SubSection(
-        section_def=DiamondProperties)
+    diamond_properties = SubSection(section_def=DiamondProperties)
 
     def normalize(self, archive, logger):
-        super(
-            DiamondSample,
-            self).normalize(
-            archive,
-            logger)
+        super().normalize(archive, logger)

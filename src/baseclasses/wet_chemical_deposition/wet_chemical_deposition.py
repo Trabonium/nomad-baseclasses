@@ -17,72 +17,64 @@
 #
 
 import numpy as np
-
-from nomad.metainfo import (
-    Quantity,
-    Reference,
-    SubSection, Section
-)
-
 from nomad.datamodel.data import ArchiveSection
-from ..solution import Solution
+from nomad.metainfo import Quantity, Reference, Section, SubSection
+
+from baseclasses.helper.utilities import rewrite_json_recursively
+
 from .. import LayerDeposition
 from ..material_processes_misc import Annealing, Quenching, Sintering
-from baseclasses.helper.utilities import rewrite_json_recursively
+from ..solution import Solution
 
 
 class PrecursorSolution(ArchiveSection):
-
     m_def = Section(
-        links=['https://purl.archive.org/tfsco/TFSCO_00001081'],
-        label_quantity='name')
+        links=['https://purl.archive.org/tfsco/TFSCO_00001081'], label_quantity='name'
+    )
     name = Quantity(type=str)
 
     reload_referenced_solution = Quantity(
-        type=bool,
-        default=False,
-        a_eln=dict(component='ButtonEditQuantity')
+        type=bool, default=False, a_eln=dict(component='ActionEditQuantity')
     )
 
     solution = Quantity(
         links=['http://purl.obolibrary.org/obo/CHEBI_75958'],
         type=Reference(Solution.m_def),
-        a_eln=dict(component='ReferenceEditQuantity', label="Solution Reference"))
+        a_eln=dict(component='ReferenceEditQuantity', label='Solution Reference'),
+    )
 
     solution_volume = Quantity(
-        links=['http://purl.obolibrary.org/obo/PATO_0000918',
-               'https://purl.archive.org/tfsco/TFSCO_00002158'],
-        type=np.dtype(
-            np.float64),
+        links=[
+            'http://purl.obolibrary.org/obo/PATO_0000918',
+            'https://purl.archive.org/tfsco/TFSCO_00002158',
+        ],
+        type=np.dtype(np.float64),
         unit=('ml'),
         a_eln=dict(
             component='NumberEditQuantity',
             defaultDisplayUnit='ml',
-            props=dict(
-                minValue=0)))
+            props=dict(minValue=0),
+        ),
+    )
 
-    solution_details = SubSection(
-        section_def=Solution)
+    solution_details = SubSection(section_def=Solution)
 
     def normalize(self, archive, logger):
-
         if self.reload_referenced_solution and self.solution:
             self.reload_referenced_solution = False
-            rewrite_json_recursively(archive, "reload_referenced_solution", False)
+            rewrite_json_recursively(archive, 'reload_referenced_solution', False)
             self.solution_details = self.solution.m_copy(deep=True)
             self.solution = None
 
         if self.solution and self.solution.name:
             if self.solution_volume:
-                self.name = self.solution.name + \
-                    ' ' + str(self.solution_volume)
+                self.name = self.solution.name + ' ' + str(self.solution_volume)
             else:
                 self.name = self.solution.name
 
         if self.solution_details and self.solution_details.name:
             if self.solution_volume:
-                self.name = self.solution_details.name + \
-                    ' ' + str(self.solution_volume)
+                self.name = self.solution_details.name + ' ' + str(self.solution_volume)
             else:
                 self.name = self.solution_details.name
 
@@ -103,26 +95,29 @@ def copy_solutions(sol):
 
 
 class WetChemicalDeposition(LayerDeposition):
-    '''Wet Chemical Deposition'''
-    m_def = Section(
-        links=['https://purl.archive.org/tfsco/TFSCO_00002051']
-    )
+    """Wet Chemical Deposition"""
+
+    m_def = Section(links=['https://purl.archive.org/tfsco/TFSCO_00002051'])
 
     solution = SubSection(
         links=['http://purl.obolibrary.org/obo/OBI_0000293'],
-        section_def=PrecursorSolution, repeats=True)
+        section_def=PrecursorSolution,
+        repeats=True,
+    )
 
     annealing = SubSection(
-        links=['http://purl.obolibrary.org/obo/RO_0001019'],
-        section_def=Annealing)
+        links=['http://purl.obolibrary.org/obo/RO_0001019'], section_def=Annealing
+    )
     quenching = SubSection(
-        links=['http://purl.obolibrary.org/obo/RO_0001019'],
-        section_def=Quenching)
+        links=['http://purl.obolibrary.org/obo/RO_0001019'], section_def=Quenching
+    )
 
     sintering = SubSection(section_def=Sintering, repeats=True)
 
     def normalize(self, archive, logger):
-        super(WetChemicalDeposition, self).normalize(archive, logger)
+        if not self.method:
+            self.method = 'Wet chemical deposition'
+        super().normalize(archive, logger)
 
         if self.samples and self.solution:
             for wc_sol in self.solution:

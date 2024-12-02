@@ -20,8 +20,8 @@ from .. import BaseMeasurement
 
 
 class ConstantPotential(BaseMeasurement):
-    '''Eqe Measurement'''
+    """Eqe Measurement"""
 
     def normalize(self, archive, logger):
-        super(ConstantPotential, self).normalize(archive, logger)
-        self.method = "EQE Measurement"
+        super().normalize(archive, logger)
+        self.method = 'EQE Measurement'
